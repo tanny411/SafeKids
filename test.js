@@ -1,14 +1,18 @@
-async function Load(url) {
-    let response;
-    response = await fetch(chrome.runtime.getURL(url));
-    const text = await response.text();
-    arr=text.split('\n');
-    for(i=0;i<arr.length;i++){
-        arr[i]=arr[i].trim().toLowerCase();
-    }
+/*str=" aysha ";
+console.log(str.length);
+str=str.trim();
+console.log(str.length);
+
+var x=9;
+
+function func(){
+    x="opa";
 }
 
-Load("Links/blacklistedsites.txt");
+func();
+
+console.log(x);
+*/
 
 function extractHostname(url) {
     var hostname;
@@ -28,7 +32,7 @@ function extractHostname(url) {
 
     return hostname;
 }
-
+console.log(extractHostname("20six.fr"));
 function extractRootDomain(url) {
     var domain = extractHostname(url),
         splitArr = domain.split('.'),
@@ -46,12 +50,3 @@ function extractRootDomain(url) {
     }
     return domain;
 }
-
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    host=extractHostname(tab.url).toLowerCase();
-    root=extractRootDomain(tab.url).toLowerCase();
-    if(arr.includes(root) || arr.includes(host)){
-        chrome.tabs.update(tabId, {"url" : "https://unsplash.com/photos/Grn631gfZus"}, 
-        function () {});
-    }
-});
