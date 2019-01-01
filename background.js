@@ -51,7 +51,44 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     host=extractHostname(tab.url).toLowerCase();
     root=extractRootDomain(tab.url).toLowerCase();
     if(arr.includes(root) || arr.includes(host)){
-        chrome.tabs.update(tabId, {"url" : "https://unsplash.com/photos/Grn631gfZus"}, 
+        chrome.tabs.update(tabId, {"url" : "redirect.html"}, 
         function () {});
     }
 });
+
+chrome.runtime.onMessage.addListener(gotMessage);
+
+function gotMessage(message, sender, sendResponse) {
+    url=message.url;
+    if(message.txt=="block"){
+
+        if(arr.includes(url)){
+            obj={
+                txt:"block",
+                msg:"Site is already in blocklist!"
+            };
+        }
+        else{
+            obj={
+                txt:"block",
+                msg:"Site Blocked!"
+            };
+        }
+    }
+    else if(message.txt=="ignore"){
+
+        if(arr.includes(url)){
+            obj={
+                txt:"ignore",
+                msg:"Site Ignored!"
+            };
+        }
+        else{
+            obj={
+                txt:"ignore",
+                msg:"Site not in block list!"
+            };
+        }
+    }
+    chrome.runtime.sendMessage(obj);
+}

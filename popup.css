@@ -1,0 +1,26 @@
+body{
+    background-color: rgb(206, 198, 198);
+}
+button{
+    border: none;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+button:hover{
+    border: solid;
+    border-width:3px;
+    border-color: rgb(75, 69, 69);
+}
+#blkbtn{
+    background-color: rgb(179, 2, 2);
+}
+#ignbtn{
+    background-color: rgb(2, 121, 31);
+}
+#blkhead,#ignhead{
+    color:rgb(199, 0, 0);
+}

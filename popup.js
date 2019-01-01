@@ -1,17 +1,53 @@
 window.onload = function(){
 
-    q=document.getElementById('userMsg');
-    q.addEventListener('input',sendMsg);
+    blkbtn=document.getElementById('blkbtn');
+    blk=document.getElementById('blk');
+    ignbtn=document.getElementById('ignbtn');
+    ign=document.getElementById('ign');
+    ignhead=document.getElementById('ignhead');
+    blkhead=document.getElementById('blkhead');
+
+    blkbtn.addEventListener('click',block);
+    ignbtn.addEventListener('click',ignore);
+
+    function block(){
+        txt=blk.value;
+        if(txt.length<1) {
+            blkhead.innerHTML="";
+            return;
+        }
+        obj={
+            txt:"block",
+            url:txt
+        };
+        chrome.runtime.sendMessage(obj,function (response) {});
+    }
+    function ignore(){
+        txt=ign.value;
+        if(txt.length<1){
+            ignhead.innerHTML="";
+            return;
+        }
+        obj={
+            txt:"ignore",
+            url:txt
+        };
+        chrome.runtime.sendMessage(obj,function (response) {});
+    }
+
+    chrome.runtime.onMessage.addListener(gotMessage);
+
+    function gotMessage(message, sender, sendResponse){
+        if(message.txt=="block"){
+            blkhead.innerHTML=message.msg;
+        }
+        else if(message.txt=="ignore"){
+            ignhead.innerHTML=message.msg;
+        }
+    }
 
     function sendMsg(){
-
-        msg=q.value;
-        console.log("the message is : " + msg);
-        
-        let paragraphs = document.getElementsByTagName('p');
-        for (elt of paragraphs) {
-            elt.innerHTML = msg;
-        }
+        //to content.js
 
         let params = {
             active: true,
