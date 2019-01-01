@@ -20,7 +20,7 @@ window.onload = function(){
             txt:"block",
             url:txt
         };
-        chrome.runtime.sendMessage(obj,function (response) {});
+        chrome.runtime.sendMessage(obj);
     }
     function ignore(){
         txt=ign.value;
@@ -32,7 +32,7 @@ window.onload = function(){
             txt:"ignore",
             url:txt
         };
-        chrome.runtime.sendMessage(obj,function (response) {});
+        chrome.runtime.sendMessage(obj);
     }
 
     chrome.runtime.onMessage.addListener(gotMessage);

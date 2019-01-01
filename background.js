@@ -6,6 +6,9 @@ async function Load(url) {
     for(i=0;i<arr.length;i++){
         arr[i]=arr[i].trim().toLowerCase();
     }
+    console.log(arr.length);
+    arr = new Set(arr);
+    console.log(arr.size);
 }
 
 Load("Links/blacklistedsites.txt");
@@ -50,7 +53,7 @@ function extractRootDomain(url) {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     host=extractHostname(tab.url).toLowerCase();
     root=extractRootDomain(tab.url).toLowerCase();
-    if(arr.includes(root) || arr.includes(host)){
+    if(arr.has(root) || arr.has(host)){
         chrome.tabs.update(tabId, {"url" : "redirect.html"}, 
         function () {});
     }
@@ -62,7 +65,7 @@ function gotMessage(message, sender, sendResponse) {
     url=message.url;
     if(message.txt=="block"){
 
-        if(arr.includes(url)){
+        if(arr.has(url)){
             obj={
                 txt:"block",
                 msg:"Site is already in blocklist!"
@@ -73,15 +76,17 @@ function gotMessage(message, sender, sendResponse) {
                 txt:"block",
                 msg:"Site Blocked!"
             };
+            arr.add(url);
         }
     }
     else if(message.txt=="ignore"){
 
-        if(arr.includes(url)){
+        if(arr.has(url)){
             obj={
                 txt:"ignore",
                 msg:"Site Ignored!"
             };
+            arr.delete(url);
         }
         else{
             obj={
