@@ -6,10 +6,25 @@ async function Load(url) {
     for(i=0;i<arr.length;i++){
         arr[i]=arr[i].trim().toLowerCase();
     }
-    console.log(arr.length);
+    //console.log(arr.length);
     arr = new Set(arr);
-    console.log(arr.size);
+    fromStorage();
+    //console.log(arr.size);
 }
+
+/* REMEMBER TO CALL chrome.storage.sync.clear() when debugging: its a permamnet storage*/
+function fromStorage()
+{
+    chrome.storage.sync.get(null, function(items) {
+        var allKeys = Object.keys(items);
+        console.log(items);
+        for(i in items)
+        {
+            if(items[i]=="block") arr.add(i);
+            else if(items[i]=="ignore") arr.delete(i);
+        }
+    });
+};
 
 Load("Links/blacklistedsites.txt");
 
@@ -62,7 +77,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 chrome.runtime.onMessage.addListener(gotMessage);
 
 function gotMessage(message, sender, sendResponse) {
-    url=message.url;
+    var url=message.url;
     if(message.txt=="block"){
 
         if(arr.has(url)){
@@ -77,6 +92,15 @@ function gotMessage(message, sender, sendResponse) {
                 msg:"Site Blocked!"
             };
             arr.add(url);
+            var defaultValue = "In case it's not set yet";
+            chrome.storage.sync.get({[url]: defaultValue}, function(data) {
+                if(data[Object.keys(data)[0]]=="ignore"){
+                    chrome.storage.sync.remove([url]);
+                }
+                else{
+                    chrome.storage.sync.set({[url]:"block"});
+                }
+            });
         }
     }
     else if(message.txt=="ignore"){
@@ -87,6 +111,16 @@ function gotMessage(message, sender, sendResponse) {
                 msg:"Site Ignored!"
             };
             arr.delete(url);
+
+            var defaultValue = "In case it's not set yet";
+            chrome.storage.sync.get({[url]: defaultValue}, function(data) {
+                if(data[Object.keys(data)[0]]=="block"){
+                    chrome.storage.sync.remove([url]);
+                }
+                else{
+                    chrome.storage.sync.set({[url]:"ignore"});
+                }
+            });
         }
         else{
             obj={
