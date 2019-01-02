@@ -32,7 +32,7 @@ function extractHostname(url) {
 
     return hostname;
 }
-console.log(extractHostname("20six.fr"));
+//console.log(extractHostname("20six.fr"));
 function extractRootDomain(url) {
     var domain = extractHostname(url),
         splitArr = domain.split('.'),
