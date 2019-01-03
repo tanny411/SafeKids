@@ -12,7 +12,7 @@ class Filter {
      */
     constructor(options = {}) {
       Object.assign(this, {
-        list: ['dog','cat','ash0le','Friends'],//options.emptyList && [] || Array.prototype.concat.apply(localList, [baseList, options.list || []]),
+        list: options.emptyList && [] || ['testWord'],
         exclude: options.exclude || [],
         placeHolder: options.placeHolder || '*',
         regex: options.regex || /[^a-zA-Z0-9|\$|\@]|\^/g,
@@ -81,7 +81,8 @@ class Filter {
 /*
 filter = new Filter();
 console.log(filter.clean("Don't be an ash0le"));
-
+/*
+/*
 //change placeholder
 var customFilter = new Filter({ placeHolder: 'x'});
 console.log(customFilter.clean('Don\'t be an ash0le'));
