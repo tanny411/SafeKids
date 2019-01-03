@@ -2,14 +2,26 @@ window.onload = function(){
 
     blkbtn=document.getElementById('blkbtn');
     blk=document.getElementById('blk');
+    blkhead=document.getElementById('blkhead');
+
     ignbtn=document.getElementById('ignbtn');
     ign=document.getElementById('ign');
     ignhead=document.getElementById('ignhead');
-    blkhead=document.getElementById('blkhead');
+
+    oldpass=document.getElementById('oldpass');
+    newpass=document.getElementById('newpass');
+    inpass=document.getElementById('inpass');
+    passhead=document.getElementById('passhead');
 
     blkbtn.addEventListener('click',block);
     ignbtn.addEventListener('click',ignore);
+    cngpass.addEventListener("click",changePass);
 
+    pass=null;
+    chrome.storage.sync.get("pass", function(data){
+        pass=data["pass"];
+    });
+    
     function block(){
         txt=blk.value;
         if(txt.length<1) {
@@ -26,6 +38,10 @@ window.onload = function(){
         txt=ign.value;
         if(txt.length<1){
             ignhead.innerHTML="";
+            return;
+        }
+        if(pass!=inpass.value){
+            ignhead.innerHTML="Wrong Password!";
             return;
         }
         obj={
@@ -64,6 +80,18 @@ window.onload = function(){
                 txt: msg
             };
             chrome.tabs.sendMessage(tabs[0].id, obj);
+        }
+    }
+
+    function changePass()
+    {
+        if(pass!=oldpass.value){
+            passhead.innerHTML="Old password does not match!";
+        }
+        else{
+            chrome.storage.sync.set({"pass":newpass.value});
+            pass=newpass.value;
+            passhead.innerHTML='';
         }
     }
 }

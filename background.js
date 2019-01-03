@@ -131,3 +131,10 @@ function gotMessage(message, sender, sendResponse) {
     }
     chrome.runtime.sendMessage(obj);
 }
+
+var defaultValue = "In case it's not set yet";
+chrome.storage.sync.get({"pass": defaultValue}, function(data) {
+    if(data["pass"]==defaultValue){
+        chrome.storage.sync.set({"pass":"ext"});
+    }
+});
