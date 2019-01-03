@@ -13,9 +13,8 @@ async function Load(url) {
     //console.log(arr.size);
     bw = Array.from(arr);
     //console.log(bw);
-    filter = new Filter({ emptyList: true });
-    filter.addWords(...bw);
-    //console.log(filter.list.length);
+    filter = new Filter({ list: bw });
+    //console.log(filter.list);
     console.log('filter ready!');
     walk(document.body);
 }
@@ -46,9 +45,8 @@ function walk(node)
 
 function handleText(textNode) 
 {
-    console.log(filter.clean("aysha fuck"));
-    console.log(filter.isProfane("aysha"));
-    //textNode.nodeValue = filter.clean(textNode.nodeValue);
+    console.log(filter.isProfane("fuck off"));
+    textNode.nodeValue = filter.clean(textNode.nodeValue.toLowerCase());
 }
 
 /*
