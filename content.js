@@ -45,8 +45,7 @@ function walk(node)
 
 function handleText(textNode) 
 {
-    console.log(filter.isProfane("fuck off"));
-    textNode.nodeValue = filter.clean(textNode.nodeValue.toLowerCase());
+    textNode.nodeValue = filter.clean(textNode.nodeValue);
 }
 
 /*

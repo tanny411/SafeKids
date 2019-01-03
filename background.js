@@ -26,7 +26,7 @@ function fromStorage()
     });
 };
 
-Load("Links/blacklistedsites.txt");
+Load("Links/alllink.txt");
 
 function extractHostname(url) {
     var hostname;
