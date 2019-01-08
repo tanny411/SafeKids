@@ -12,7 +12,9 @@ async function Load(url) {
     //console.log(arr.size);
 }
 
-/* REMEMBER TO CALL chrome.storage.sync.clear() when debugging: its a permamnet storage*/
+/* REMEMBER TO CALL*/
+//chrome.storage.sync.clear();
+//when debugging: its a permamnet storage*/
 function fromStorage()
 {
     chrome.storage.sync.get(null, function(items) {
@@ -23,6 +25,7 @@ function fromStorage()
             if(items[i]=="block") arr.add(i);
             else if(items[i]=="ignore") arr.delete(i);
         }
+        arr.delete("");
     });
 };
 
@@ -69,6 +72,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     host=extractHostname(tab.url).toLowerCase();
     root=extractRootDomain(tab.url).toLowerCase();
     if(arr.has(root) || arr.has(host)){
+        //console.log(root);
         chrome.tabs.update(tabId, {"url" : "redirect.html"}, 
         function () {});
     }

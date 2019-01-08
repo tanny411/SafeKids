@@ -91,7 +91,7 @@ window.onload = function(){
         else{
             chrome.storage.sync.set({"pass":newpass.value});
             pass=newpass.value;
-            passhead.innerHTML='';
+            passhead.innerHTML='Password Changed!';
         }
     }
 }
