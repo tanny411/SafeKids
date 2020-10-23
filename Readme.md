@@ -10,7 +10,7 @@ Clone this repository `git clone https://github.com/tanny411/SafeKids.git`
 
 Add it as a extension in chrome.
 
-![SUBMIT/chrome extension loading.PNG]()
+![SUBMIT/chrome-extension-loading.png]()
 
 Now you should be able to see the extension working. Click on the safekids browser button.
 
